@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Alumni</title>
+</head>
+<body>
+    <h2>Register Alumni</h2>
+    <form action="index.php?action=alumni_register" method="POST" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <label for="img">Profile Picture:</label>
+        <input type="file" id="img" name="img"><br><br>
+        
+        <label for="job">Job:</label>
+        <input type="text" id="job" name="job" required><br><br>
+        
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required><br><br>
+        
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>
