@@ -1,5 +1,12 @@
 <?php
 require_once(BASE_PATH . '/models/Alumni.php');
+header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0); // Handle preflight
+}
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get data from POST request
     $name = $_POST['name'];
@@ -8,10 +15,7 @@ require_once(BASE_PATH . '/models/Alumni.php');
     $job = $_POST['job'];
     $dep = $_POST['department'];
     $Img = isset($_FILES['img']) ? $_FILES['img'] : null;
-     
-    print_r($_POST); 
-    print_r($_FILES);
-
+ 
     // Hash the password before storing it in the database
     $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
 

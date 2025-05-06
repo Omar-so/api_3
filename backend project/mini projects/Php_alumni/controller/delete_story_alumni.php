@@ -1,33 +1,49 @@
 <?php
 require_once(BASE_PATH . '/models/Alumni.php');
 
-header(header: 'Content-Type: application/json');
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0); // Handle preflight
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_start();
 
     $input = json_decode(file_get_contents('php://input'), true);
 
-    // Ensure the alumni is logged in
     if (!isset($_SESSION['alumni_id'])) {
-        echo json_encode(["status" => "401", "msg" => "Unauthorized"]);
+        http_response_code(401);
+        echo json_encode(["status" => "error", "msg" => "Unauthorized"]);
         exit();
     }
 
-
     $alumniId = $_SESSION['alumni_id'];
-    $storyId = $input['story_id'];
+    $storyId = $input['story_id'] ?? null;
+
+    if (!$storyId) {
+        http_response_code(400);
+        echo json_encode(["status" => "error", "msg" => "Story ID is required."]);
+        exit();
+    }
 
     $alumni = new Alumni();
 
     try {
         $deleted = $alumni->deleteStory($storyId, $alumniId);
         if ($deleted) {
-            echo json_encode(["status" => "200", "msg" => "Story deleted successfully"]);
+            http_response_code(200);
+            echo json_encode(["status" => "success", "msg" => "Story deleted successfully"]);
         } else {
-            echo json_encode(["status" => "403", "msg" => "You are not authorized to delete this story or it does not exist"]);
+            http_response_code(403);
+            echo json_encode(["status" => "error", "msg" => "Not authorized to delete this story or it doesn't exist"]);
         }
     } catch (Exception $e) {
-        echo json_encode(["status" => "500", "msg" => "An error occurred: " . $e->getMessage()]);
+        http_response_code(500);
+        echo json_encode(["status" => "error", "msg" => "An error occurred: " . $e->getMessage()]);
     }
 }
-?>

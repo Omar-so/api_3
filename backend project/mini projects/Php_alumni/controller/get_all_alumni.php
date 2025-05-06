@@ -1,20 +1,37 @@
 <?php
 require_once(BASE_PATH . '/models/Alumni.php');
-header(header: 'Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    
-    $input = json_decode(file_get_contents('php://input'), true);
+// Set headers
+header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+header("Access-Control-Allow-Credentials: true");
+header("Content-Type: application/json");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
-    $name = $input['name']; 
-    $Alumni = new Alumni(); // Assuming your class is named Event
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
-        $AlumniData = $Alumni->getAllByname($name); // Call to get all event records
+        // Initialize the Alumni model with database connection
+        $alumniModel = new Alumni();
+        
+        // Get all alumni data
+        $alumniData = $alumniModel->getAll();
 
-        echo json_encode(["status" => "200", "data" => $eventData]);
+        // Return success response
+        echo json_encode([
+            "status" => "success",
+            "data" => $alumniData
+        ]);
     } catch (Exception $e) {
-        echo json_encode(["status" => "500", "msg" => "An error occurred: " . $e->getMessage()]);
+        // Return error response
+        http_response_code(500);
+        echo json_encode([
+            "status" => "error",
+            "message" => "An error occurred: " . $e->getMessage()
+        ]);
     }
 }
 ?>

@@ -1,6 +1,22 @@
 <?php
 require_once(BASE_PATH . '/models/Alumni.php');
-header(header: 'Content-Type: application/json');
+$allowed_origin = "http://localhost:5500"; // <-- your frontend origin
+header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0); // Handle preflight
+}
+
+header('Content-Type: application/json');
+
+// Handle preflight requests for OPTIONS method
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit;  // If it's an OPTIONS request, stop processing and return headers
+}
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $input = json_decode(file_get_contents('php://input'), true);
@@ -26,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['alumni_job'] = $data['Job_Alumni'];
                 $_SESSION['alumni_department'] = $data['Department_Alumni'];
 
-                echo json_encode(["status" => "201", "msg" => "Login successful"]);
+                echo json_encode(["status" => "200", "msg" => "Login successful" , "data" =>$_SESSION['alumni_id']]   );
             } else {
                 echo json_encode(["status" => "403", "msg" => "Incorrect password"]);
             }

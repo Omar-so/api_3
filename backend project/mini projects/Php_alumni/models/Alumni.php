@@ -10,7 +10,7 @@ class Alumni {
 
     // Get all alumni
     public function getAll() {
-        $stmt = $this->db->query("SELECT * FROM Alumni");
+        $stmt = $this->db->query("SELECT COUNT(*) FROM Alumni");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getAllByname($name)
@@ -71,7 +71,7 @@ class Alumni {
     
     // Update alumni
     public function update($id, $name, $email ,$pass, $job) {
-        $stmt = $this->db->prepare("UPDATE Alumni SET Name_Alumni = ?, Email_Alumni = ?, Password_Alumni = ?, Job_Alumni = ? WHERE Id_Alumni = ?");
+        $stmt = $this->db->prepare("UPDATE Alumni SET Name_Alumni = ?, Email_Alumni = ?, Passwd_Alumni = ?, Job_Alumni = ? WHERE Id_Alumni = ?");
         return $stmt->execute([$name, $email, $pass ,$job, $id]);
     }
 
