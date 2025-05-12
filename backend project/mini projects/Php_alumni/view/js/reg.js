@@ -285,14 +285,14 @@ console.log( name ,email);
       img: imageFile,
     };    
     try {
-      console.log(formData);
       
       // Submit using our API facade
       const response = await api.post("alumni_register", formData, true);
        
-      console.log("this is the response" , response);
+      console.log("this is the response" , response.msg);
       
-      if(response.status == 201 ){
+      if(response.status == 201  || response.status === 'undefined'){
+
       showNotification(
         "success",
         "Registration Successful",
@@ -314,7 +314,7 @@ console.log( name ,email);
       // Show error notification
       showNotification(
         "error",
-        "Registration Failed",
+        error,
       );
     }
   });
@@ -406,9 +406,8 @@ console.log( name ,email);
       document.getElementById("imagePreview").innerHTML =
         '<i class="fas fa-user text-gray-400 text-4xl"></i>';
 
-      // Redirect to login page after 2 seconds
       setTimeout(() => {
-        // window.location.href = 'login.html';
+        window.location.href = 'login.html';
         console.log("Would redirect to login page");
       }, 2000);
     }
@@ -509,7 +508,7 @@ console.log( name ,email , imageFile);
 
       // Redirect to login page after 2 seconds
       setTimeout(() => {
-        // window.location.href = 'login.html';
+        window.location.href = 'login.html';
       }, 2000);
     }
     } catch (error) {

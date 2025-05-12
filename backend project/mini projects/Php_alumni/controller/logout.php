@@ -9,37 +9,29 @@ $allowedOrigins = [
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
-// Set CORS headers only for allowed origins
 if (in_array($origin, $allowedOrigins)) {
     header("Access-Control-Allow-Origin: $origin");
 } else {
-    // Default to one allowed origin if no match
     header("Access-Control-Allow-Origin: http://localhost:5500");
 }
 
-// Essential CORS headers
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Content-Type: application/json");
 
-// Handle preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed']);
     exit();
 }
 
-// Proper session destruction
-$_SESSION = []; // Clear session data
-
-// Delete session cookie
+$_SESSION = []; 
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(
@@ -55,7 +47,6 @@ if (ini_get("session.use_cookies")) {
 
 session_destroy();
 
-// Success response
 echo json_encode([
     'status' => 200,
     'message' => 'Logout successful'

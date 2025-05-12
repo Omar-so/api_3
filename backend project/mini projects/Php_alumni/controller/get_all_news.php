@@ -11,11 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     session_start();
 
-    $news = new News(); // Make sure your class is named 'News'
+    $news = new News(); 
 
     try {
-        $allNews = $news->getAll(); // This should return an array or data
-
+        $allNews = $news->getAll(); 
         echo json_encode(["status" => "200", "data" => $allNews]);
     } catch (Exception $e) {
         echo json_encode(["status" => "500", "msg" => "An error occurred: " . $e->getMessage()]);

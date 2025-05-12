@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     $alumni = new Alumni();
 
-    // Get input from either POST or GET
     $input = json_decode(file_get_contents('php://input'), true) ?? $_REQUEST;
     $alumniId = $input['alumni_id'] ?? null;
 

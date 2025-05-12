@@ -23,7 +23,6 @@ try {
 
     $student = new Student();
 
-    // Check if email is already registered
     if ($student->getByEmail($email)) {
         throw new Exception("Email already in use.");
     }

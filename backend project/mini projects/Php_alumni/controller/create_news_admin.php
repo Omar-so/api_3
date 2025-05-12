@@ -16,18 +16,15 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Preflight request handling
     exit(0);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if the user is logged in
     if (!isset($_SESSION['admin_name'])) {
         echo json_encode(["status" => "401", "msg" => "Unauthorized"]);
         exit();
     }
 
-    // Get POST data
     $input = json_decode(file_get_contents('php://input'), true);
     $title = $input['title_news'] ?? null;
     $content = $input['content_news'] ?? null;

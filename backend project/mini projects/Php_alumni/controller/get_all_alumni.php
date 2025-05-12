@@ -14,19 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
-        // Initialize the Alumni model with database connection
         $alumniModel = new Alumni();
         
-        // Get all alumni data
         $alumniData = $alumniModel->getAll();
 
-        // Return success response
         echo json_encode([
             "status" => "success",
             "data" => $alumniData
         ]);
     } catch (Exception $e) {
-        // Return error response
         http_response_code(500);
         echo json_encode([
             "status" => "error",

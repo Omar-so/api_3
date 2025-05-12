@@ -160,7 +160,7 @@ document.getElementById('admin-form').addEventListener('submit', async function(
             email: username,
             password: password
         });
-        console.log(response);
+        console.log("response ",response);
     
         if(response.status == 200) { 
             window.location.href='dashboard.html'

@@ -1,5 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/Alumni.php');
+require_once(BASE_PATH . '/config/emailsender.php');
+
 header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -8,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0); // Handle preflight
 }
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get data from POST request
     $name = $_POST['name'];
     $email = $_POST['email'];
     $pass = $_POST['password'];
@@ -16,17 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     $dep = $_POST['department'];
     $Img = isset($_FILES['img']) ? $_FILES['img'] : null;
  
-    // Hash the password before storing it in the database
     $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
 
-    // Instantiate the Alumni class
     $alumni = new Alumni();
     
     try {
-        // Check if the email already exists in the system
         if (!$alumni->getByEmail($email)) {       
-            // Create a new alumni entry
             $response = $alumni->create($name, $email, $hashed_pass, $job, $Img, $dep);
+            $sendemail = new MailSender("omargood.game55@gmail.com");
+            $check = $sendemail->send($email , "register", "You have registered successfully");
+            
             echo json_encode([
                 "status" => "201", 
                 "msg" => "You have registered successfully", 

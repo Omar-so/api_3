@@ -20,7 +20,7 @@ header('Content-Type: application/json');  if ($_SERVER['REQUEST_METHOD'] == 'PO
     $name = $_POST['Name_Certificate'];
     $issuedDate = $_POST['Issued_Date'];
     $Img = $_FILES['img'];
-    $adminId = $_SESSION['admin_id'];  // Get the logged-in admin's ID from the session
+    $adminId = $_SESSION['admin_id'];  
     
     $cert = new $cert();
 

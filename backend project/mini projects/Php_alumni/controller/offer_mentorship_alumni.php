@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header('Content-Type: application/json');
 try {
-    // Ensure user is logged in
     if (!isset($_SESSION['alumni_id'])) {
         throw new Exception("You must be logged in to offer mentorship.");
     }

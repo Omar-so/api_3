@@ -111,7 +111,23 @@
                     </div>
                 </div>
             </div>
+                      <!-- Feedback Section -->
+<div id="feedback_section" class="bg-white rounded-lg shadow-md p-6 mt-5 " >
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Recent Feedback</h3>
+        <button id="view-all-feedback" class="text-blue-600 hover:underline">View All</button>
+    </div>
+    <div id="recent-feedback" class="space-y-4">
+        <!-- Feedback will be loaded here -->
+        <div class="text-center py-4">
+            <i class="fas fa-spinner fa-spin text-blue-500 text-xl"></i>
+            <p class="mt-2 text-gray-600">Loading feedback...</p>
         </div>
+    </div>
+</div>
+        </div>
+
+        
 
         <!-- Mentorship Section (Hidden by default) -->
         <div id="mentorship-content" class="hidden space-y-8">
@@ -152,20 +168,7 @@
             </div>
         </div>
 
-          <!-- Feedback Section -->
-<div class="bg-white rounded-lg shadow-md p-6 mt-5">
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold">Recent Feedback</h3>
-        <button id="view-all-feedback" class="text-blue-600 hover:underline">View All</button>
-    </div>
-    <div id="recent-feedback" class="space-y-4">
-        <!-- Feedback will be loaded here -->
-        <div class="text-center py-4">
-            <i class="fas fa-spinner fa-spin text-blue-500 text-xl"></i>
-            <p class="mt-2 text-gray-600">Loading feedback...</p>
-        </div>
-    </div>
-</div>
+
         <!-- Groups Section (Hidden by default) -->
         <div id="groups-content" class="hidden space-y-8">
             <div class="bg-white rounded-lg shadow-md p-6">

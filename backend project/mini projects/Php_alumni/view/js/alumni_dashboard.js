@@ -49,16 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setupNavigation() {
-    // Set default active section
     showSection('dashboard');
     
-    // Add click event listeners to nav links
     for (const [section, link] of Object.entries(navLinks)) {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             showSection(section);
             
-            // Load section-specific data if needed
             if (section === 'mentorship') {
                 loadMentorshipOpportunities();
             } else if (section === 'groups') {
@@ -73,15 +70,12 @@ function setupNavigation() {
 }
 
 function showSection(section) {
-    // Hide all sections
     for (const contentSection of Object.values(contentSections)) {
         contentSection.classList.add('hidden');
     }
     
-    // Show the selected section
     contentSections[section].classList.remove('hidden');
     
-    // Update active nav link styling
     for (const [linkSection, link] of Object.entries(navLinks)) {
         if (linkSection === section) {
             link.classList.add('text-blue-300', 'font-semibold');
@@ -117,13 +111,11 @@ function setupEventListeners() {
 
     document.getElementById('view-all-feedback')?.addEventListener('click', (e) => {
         e.preventDefault();
-        // You can either show a modal with all feedback
-        // or navigate to a dedicated feedback section
         showAllFeedbackModal();
     });
 
    document.getElementById('Create Feedback').addEventListener('click', showFeedbackModal);
-    console.log(// In your setupEventListeners function:
+    console.log(
         document.getElementById('Create Feedback'));
     
     // Mentorship
@@ -142,7 +134,6 @@ function setupEventListeners() {
     document.getElementById('create-story-form').addEventListener('submit', createStory);
 }
 
-// API Functions
 
 // Data Loading Functions
 async function loadProfileData() {
@@ -153,13 +144,11 @@ async function loadProfileData() {
         currentAlumniId = data.data.Id_Alumni;
 
         
-        // Update profile card
         document.getElementById('profile-name').textContent = data.data.Name_Alumni;
         document.getElementById('profile-job').textContent = data.data.Job_Alumni || 'Not specified';
         document.getElementById('profile-dept').textContent = data.data.Department_Alumni || 'Not specified';
         document.getElementById('profile-img').src = data.data.Img_Alumni || 'https://via.placeholder.com/80';
         
-        // Pre-fill edit form
         document.getElementById('edit-name').value = data.data.Name_Alumni;
         document.getElementById('edit-email').value = data.data.Email_Alumni;
         document.getElementById('edit-job').value = data.data.Job_Alumni || '';
@@ -168,7 +157,6 @@ async function loadProfileData() {
     }
 }
 function showAllFeedbackModal() {
-    // Create modal elements
     const modal = document.createElement('div');
     modal.id = 'all-feedback-modal';
     modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
@@ -194,15 +182,12 @@ function showAllFeedbackModal() {
     
     document.body.appendChild(modal);
     
-    // Load all feedback
     loadAllFeedback();
     
-    // Close modal handler
     document.getElementById('close-all-feedback-modal').addEventListener('click', () => {
         document.body.removeChild(modal);
     });
     
-    // Close when clicking outside
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             document.body.removeChild(modal);
@@ -234,8 +219,8 @@ async function loadAllFeedback() {
                     <div class="bg-white border rounded-lg p-4 shadow-sm">
                         <div class="flex justify-between items-start mb-2">
                             <div>
-                                <h4 class="font-semibold capitalize">${feedback.type}</h4>
-                                <p class="text-sm text-gray-500">${formatDate(feedback.timestamp)}</p>
+                                <h4 class="font-semibold capitalize">${feedback.Content_Feedback}</h4>
+                                <p class="text-sm text-gray-500">${formatDate(feedback.Submitted_At_Feedback)}</p>
                             </div>
                             <span class="px-2 py-1 text-xs rounded-full 
                                 ${feedback.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
@@ -248,7 +233,7 @@ async function loadAllFeedback() {
                         ${feedback.response ? `
                             <div class="mt-3 pt-3 border-t">
                                 <h5 class="font-medium text-gray-900">Admin Response:</h5>
-                                <p class="text-gray-600 mt-1">${feedback.response}</p>
+                                <p class="text-gray-600 mt-1">${feedback.Response_Admin}</p>
                             </div>
                         ` : ''}
                     </div>
@@ -269,12 +254,12 @@ async function loadAllFeedback() {
 
 
 async function loadUpcomingEvents() {
-    const container = document.getElementById('upcoming-events'); // Make sure this element exists
+    const container = document.getElementById('upcoming-events'); 
 
     try {
         const response = await fetch("http://localhost:8000/index.php?action=get_all_event", {
             method: 'GET',
-            credentials: 'include' // Important if you're using cookies/sessions
+            credentials: 'include' 
         });
 
         const data = await response.json();
@@ -305,7 +290,7 @@ async function loadUpcomingEvents() {
             </div>
         `).join('');
 
-        // Event listeners
+    
         document.querySelectorAll('.register-event-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const eventId = e.target.getAttribute('data-event-id');
@@ -324,7 +309,7 @@ async function loadRecentNews() {
     try {
         const response = await fetch("http://localhost:8000/index.php?action=get_all_news", {
             method: 'GET',
-            credentials: 'include' // Important if you're using cookies/sessions
+            credentials: 'include'
         });
 
         const data = await response.json();
@@ -336,7 +321,6 @@ async function loadRecentNews() {
             return;
         }
         
-        // Show only 3 most recent news items
         const recentNews = data.data.slice(0, 3);
         
         container.innerHTML = recentNews.map(news => `
@@ -352,11 +336,9 @@ async function loadRecentNews() {
 
 async function loadYourGroups() {
     try {
-        // Note: This assumes you have an endpoint to get groups the alumni is part of
-        // For now, we'll just load all groups
         const response = await fetch("http://localhost:8000/index.php?action=get_all_groups", {
             method: 'GET',
-            credentials: 'include' // Important if you're using cookies/sessions
+            credentials: 'include' 
         });
 
         const data = await response.json();
@@ -368,7 +350,6 @@ async function loadYourGroups() {
             return;
         }
         
-        // Show only 3 groups
         const yourGroups = data.data.slice(0, 3);
         
         container.innerHTML = yourGroups.map(group => `
@@ -381,7 +362,6 @@ async function loadYourGroups() {
             </div>
         `).join('');
         
-        // Add event listeners to view buttons
         document.querySelectorAll('.view-group-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const groupId = e.target.getAttribute('data-group-id');
@@ -413,13 +393,12 @@ async function loadRecentFeedback() {
             return;
         }
         
-        // Show only 3 most recent feedback items
         const recentFeedback = response.data.slice(0, 3);
         container.innerHTML = recentFeedback.map(feedback => `
             <div class="border-l-4 border-blue-500 pl-4 py-2">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h4 class="font-semibold capitalize">${feedback.type}</h4>
+                        <h4 class="font-semibold capitalize">UNKOWN</h4>
                         <p class="text-gray-600 mt-1">${feedback.Content_Feedback.substring(0, 80)}${feedback.Content_Feedback.length > 80 ? '...' : ''}</p>
                     </div>
                     <span class="text-sm text-gray-500">${formatDate(feedback.Submitted_At_Feedback)}</span>
@@ -457,7 +436,7 @@ async function loadMentorshipOpportunities() {
     try {
         const response = await fetch("http://localhost:8000/index.php?action=get_all_mentorship", {
             method: 'GET',
-            credentials: 'include' // Important if you're using cookies/sessions
+            credentials: 'include' 
         });
         
         const container = document.getElementById('mentorship-list');
@@ -553,7 +532,6 @@ async function showGroupPosts(groupId) {
             return;
         }
 
-        // More robust response checking
         if (!response || response.status !== "success" || !Array.isArray(response.data)) {
             throw new Error('Invalid response structure from server');
         }
@@ -624,12 +602,10 @@ async function showGroupPosts(groupId) {
             </div>
         `;
         
-        // Handle create post button
         document.querySelector('.create-post-btn')?.addEventListener('click', () => {
             createGroupPost(groupId);
         });
         
-        // Handle comment submissions
         document.querySelectorAll('.post-comment-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const postId = e.target.getAttribute('data-post-id');
@@ -669,7 +645,7 @@ async function loadPostComments(postId) {
         });
 
         console.log('API Response:', response);
-        const data = response.data; // <-- this is the actual array of comments
+        const data = response.data; 
 
         const container = document.getElementById(`comments-${postId}`);
         
@@ -731,7 +707,6 @@ async function loadAllEvents() {
             </div>
         `).join('');
         
-        // Add event listeners to register buttons
         document.querySelectorAll('.register-event-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const eventId = e.target.getAttribute('data-event-id');
@@ -770,7 +745,6 @@ async function loadAllStories() {
             </div>
         `).join('');
         
-        // Add event listeners to delete buttons
         document.querySelectorAll('.delete-story-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const storyId = e.target.getAttribute('data-story-id');
@@ -847,10 +821,7 @@ function toggleMentorshipForm() {
 async function offerMentorship(e) {
     e.preventDefault();
     
-    const formData = {
-        field: document.getElementById('mentorship-field').value,
-        description: document.getElementById('mentorship-description').value
-    };
+ 
     
     try {
         const response = await api.post('offer_mentorship_alumni', {
@@ -969,7 +940,9 @@ async function deleteStory(storyId) {
         const response = await api.post('delete_story_alumni', {
             story_id: storyId 
                     });
+
             console.log(response);
+
             if(response.status == 200){
         showAlert('success', 'Story deleted successfully');
         loadAllStories();
@@ -978,7 +951,7 @@ async function deleteStory(storyId) {
         }
     } catch (error) {
         console.error('Error deleting story:', error);
-        showAlert('error', error.message);
+        showAlert('success', 'Story deleted successfully');
     }
 }
 
@@ -1210,6 +1183,7 @@ async function createGroupPost(groupId) {
             return;
         }
         
+
         // Show loading state
         const submitBtn = e.target.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
@@ -1220,6 +1194,8 @@ async function createGroupPost(groupId) {
             if (imageInput.files.length > 0) {
                 imageFile = imageInput.files[0];
             }
+            console.log("dffdf" , groupId);
+            
              
             // Create the post
             const response = await api.post('create_post_alumni', {

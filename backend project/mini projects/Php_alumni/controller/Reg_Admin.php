@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     $pass = $_POST['password'];
     $Img  = $_FILES['img'];
     
-    // Instantiate the Admin class
     $admin = new Admin();
     
     try {

@@ -11,9 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header('Content-Type: application/json');
 
-// Handle preflight requests for OPTIONS method
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit;  // If it's an OPTIONS request, stop processing and return headers
+    exit;  
 }
 
 
@@ -28,13 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     
     try {
-        $data = $alumni->getByEmail($email); // Retrieve the alumni by email
+        $data = $alumni->getByEmail($email); 
          
-        // print_r($data);         
         if ($data) {   
-            // Verify the password
             if (password_verify($pass, $data['Passwd_Alumni'])) {
-                // Start the session and store alumni data
                 session_start();
                 $_SESSION['alumni_id'] = $data['Id_Alumni'];
                 $_SESSION['alumni_name'] = $data['Name_Alumni'];

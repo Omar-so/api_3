@@ -22,7 +22,7 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $alumniId = $_SESSION['alumni_id']; // use from session
+    $alumniId = $_SESSION['alumni_id']; 
     $name = $input['name'];
     $type = $input['type'];
 

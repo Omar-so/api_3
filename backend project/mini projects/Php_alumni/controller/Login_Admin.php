@@ -24,9 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $data = $admin->getByEmail($email);
         if ($data) {   
-            // Verify the password
             if (password_verify($pass, $data['Passwd_Admin'])) {
-                // Start the session and store user data
                 session_start();
                 $_SESSION['admin_id'] = $data['Id_Admin'];
                 $_SESSION['admin_name'] = $data['Name_Admin'];

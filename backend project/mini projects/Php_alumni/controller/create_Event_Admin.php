@@ -21,15 +21,14 @@ header('Content-Type: application/json');
   }
     $name = $input['event_name'];
     $location = $input['event_location'];
-    $eventDate = $input['event_date'];  // Ensure this is in a valid date format (YYYY-MM-DD)
-    $adminId = $_SESSION['admin_id'];  // Get the logged-in admin's ID from the session
+    $eventDate = $input['event_date']; 
+    $adminId = $_SESSION['admin_id'];  
     
     $event = new event();
 
 
 
     try {
-        // Create the event using the method in the Admin class
         $eventCreated = $event->create($adminId, $name, $location, $eventDate);
         
         if ($eventCreated) {
