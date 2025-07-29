@@ -152,22 +152,18 @@ const AddToCart = async (req, res) => {
 
   const DisplayAllChart = async (req, res) => {
     try {
-      // Extract username and email from currentUser
       const { username, email } = req.currentUser;
   
-      // Find the user by email
       const user1 = await user_2.findOne({ where: { email: email } });
   
       if (!user1) {
         return res.status(404).json({ Message: "User not found" });
       }
   
-      // Fetch all carts associated with the userId
       const CarT = await cart.findAll({ where: { userId: user1.id } });
   
       const result = [];
       
-      // Loop through each cart and find the associated course
       for (const CArt of CarT) {
         const coursess = await course.findOne({ where: { id: CArt.courseId } });
         if (coursess) {
@@ -239,9 +235,9 @@ const AddToCart = async (req, res) => {
         const coursess = await course.findOne({ where: { id: CArt.courseId } });
         if (coursess) {
           items.push({
-            name: coursess.name,  // Assuming `name` exists in the `course` model
-            price: coursess.price.toString(),  // Convert to string for PayPal
-            quantity: '1',  // Assuming 1 quantity per item for simplicity
+            name: coursess.name,  
+            price: coursess.price.toString(),  
+            quantity: '1', 
           });
         }
       }
