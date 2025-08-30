@@ -183,7 +183,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
