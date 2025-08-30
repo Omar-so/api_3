@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_container
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - REDIS_HOST=redis
+      - ENV=TESTING
+    depends_on:
+      - redis
+    command: ["npm", "run", "test"]
+
+  redis:
+    image: redis
+    container_name: redis_container
+
+networks:
+  default:
+    driver: bridge
